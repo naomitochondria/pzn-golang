@@ -1,0 +1,168 @@
+openapi: '3.0.2'
+info:
+  title: Category API
+  version: '1.0'
+servers:
+  - url: http://localhost:8000/api
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+  securitySchemes:
+    CategoryAuth:
+      in: header
+      type: apiKey
+      name: X-API-Key
+      description: "Authentication for category API"
+paths:
+  /categories:
+    get:
+      security:
+        - CategoryAuth: []
+      summary: "Getting all categories"
+      responses:
+        '200':
+          description: Success get all categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    default: 200
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Category"
+    post:
+      summary: "Create a category"
+      security:
+        - CategoryAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':  
+          description: "Success create a category"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    default: 200
+                  status:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Category"
+
+  /categories/{categoryId}:
+    get:
+      summary: "Get a category by id"
+      security:
+        - CategoryAuth: []
+      parameters:
+        - in: path
+          name: categoryId
+          description: "Id of category"
+          required: true
+          schema: 
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: "Success get a category"
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  code: 
+                    type: number
+                    default: 200
+                  status:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Category"
+    put:
+      summary: "Edit a category by id"
+      security:
+        - CategoryAuth: []
+      parameters:
+        - in: path
+          name: categoryId
+          description: "Id of category"
+          required: true
+          schema:  
+            type: integer
+            default: true
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                name: 
+                  type: string
+      responses:
+        '200':  
+          description: "Success edit a category"
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  code:
+                    type: number
+                    default: 200
+                  status:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Category"
+    delete:
+      summary: "Deleting category by id"
+      security:
+        - CategoryAuth: []
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: "Id of category"
+          schema: 
+            type: integer
+      responses:
+        '200':
+          description: "Succes delete a category"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    default: 200
+                  status:
+                    type: string
+
+        
+
+
+
+
+
+
+          
